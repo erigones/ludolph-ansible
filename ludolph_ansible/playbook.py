@@ -48,7 +48,12 @@ def colorize(msg, color):
 def stringc(msg, color):
     if '\n' in msg:
         lines = msg.split('\n')
-        lines[0] = colorize(lines[0], color)
+
+        for i, line in enumerate(tuple(lines)):
+            if line.strip():
+                lines[i] = colorize(lines[i], color)
+                break
+
         return '\n'.join(lines)
     else:
         return colorize(msg, color)
