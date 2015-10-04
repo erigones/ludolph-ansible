@@ -283,24 +283,39 @@ class Playbook(LudolphPlugin):
         return '\n'.join(res)
 
     @command
-    def apb_tasks(self, msg, playbook):
+    def apb_tasks(self, msg, playbook, tag=None):
         """
         List all tasks available in a playbook.
 
-        Usage: apb-tasks <playbook>
+        Usage: apb-tasks <playbook> [tag]
         """
         pb = self._get_playbook(msg, playbook)
         i = 0
         res = ['', 'playbook: %s' % pb.filename, '']
 
+        if tag:
+            tag = tag.strip()
+
         for play in self._get_playbook_data(pb):
             i += 1
             res.append('  play #%d (%s):\tTAGS: [%s]' % (i, play.name, ','.join(sorted(set(play.tags)))))
+            num_tasks = 0
 
             for task in pb.tasks_to_run_in_play(play):
                 if getattr(task, 'name', None) is not None:  # meta tasks have no names
-                    tags = sorted(set(task.tags).difference(['untagged']))
-                    res.append('    %s\tTAGS: [%s]' % (task.name, ', '.join(tags)))
+                    tags = set(task.tags).difference(['untagged'])
+
+                    if tag and tag not in tags:
+                        continue
+
+                    res.append('    %s\tTAGS: [%s]' % (task.name, ', '.join(sorted(tags))))
+                    num_tasks += 1
+
+            if not num_tasks:
+                if tag:
+                    res.append('    (no tasks for tag: **%s**)' % tag)
+                else:
+                    res.append('    (no tasks)')
 
             res.append('')
 
