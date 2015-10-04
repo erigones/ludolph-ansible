@@ -30,7 +30,7 @@ Installation
 
 **Dependencies:**
 
-- `Ludolph <https://github.com/erigones/Ludolph>`_ (0.6.0+)
+- `Ludolph <https://github.com/erigones/Ludolph>`_ (0.7.0+)
 - `ansible <http://www.ansible.com/>`_ (>=1.9 && < 2.0)
 
 
