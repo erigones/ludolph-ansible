@@ -20,7 +20,7 @@ DESCRIPTION = 'Ludolph: Ansible plugin'
 with codecs.open('README.rst', 'r', encoding='UTF-8') as readme:
     LONG_DESCRIPTION = ''.join(readme)
 
-DEPS = ['ludolph>=0.7.0', 'ansible']
+DEPS = ['ludolph>=0.7.0', 'ansible<2.0']
 
 CLASSIFIERS = [
     'Environment :: Console',
